@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class Main2Activity_Nivel1 extends AppCompatActivity {
+public class MainActivity2_Nivel2 extends AppCompatActivity {
 
     private TextView tv_nombre, tv_score;
     private ImageView iv_uno, iv_dos, iv_vidas;
@@ -25,9 +25,9 @@ public class Main2Activity_Nivel1 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2__nivel1);
+        setContentView(R.layout.activity_main_activity2__nivel2);
 
-        Toast.makeText(this, "Nivel 1: Sumas basicas", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Nivel 2: Restas basicas", Toast.LENGTH_SHORT).show();
 
         tv_nombre = (TextView) findViewById(R.id.tv_nombre);
         tv_score = (TextView) findViewById(R.id.tv_score);
@@ -56,8 +56,8 @@ public class Main2Activity_Nivel1 extends AppCompatActivity {
         if (score < 10) {
             aleatorio1 = (int) (Math.random() * 10);
             aleatorio2 = (int) (Math.random() * 10);
-            resultado = aleatorio1 + aleatorio2;
-            if(resultado <= 10){
+            resultado = aleatorio1 - aleatorio2;
+            if(resultado <= 10 && resultado >= 0){
                 for(int i = 0; i < numero.length; i++){
                     int id = getResources().getIdentifier(numero[i], "drawable", getPackageName());
                     if(aleatorio1 == i){
@@ -73,7 +73,7 @@ public class Main2Activity_Nivel1 extends AppCompatActivity {
             }
         }
         else{
-            Intent intent = new Intent(this, MainActivity2_Nivel2.class);
+            Intent intent = new Intent(this, MainActivity3_Nivel3.class);
             string_score = String.valueOf(score);
             string_vidas = String.valueOf(vidas);
             intent.putExtra("jugardor", nombre_jugador);
@@ -91,46 +91,44 @@ public class Main2Activity_Nivel1 extends AppCompatActivity {
         String respuesta = et_respuesta.getText().toString();
 
         if(!respuesta.isEmpty()){
-          int respuestaEntera = Integer.parseInt(respuesta);
+            int respuestaEntera = Integer.parseInt(respuesta);
 
-     if(resultado == respuestaEntera){
-        mp_great.start();
-        score++;
-        tv_score.setText("score : " + score);
+            if(resultado == respuestaEntera){
+                mp_great.start();
+                score++;
+                tv_score.setText("score : " + score);
+            }
+            else{
+                mp_bab.start();
+                vidas--;
+                switch (vidas){
+                    case 3:
+                        iv_vidas.setImageResource(R.drawable.tresvidas);
+                        break;
+                    case 2:
+                        Toast.makeText(this, "Quedan 2 manzanas", Toast.LENGTH_SHORT).show();
+                        iv_vidas.setImageResource(R.drawable.dosvidas);
+                        break;
+                    case 1:
+                        Toast.makeText(this, "Queda una manzana", Toast.LENGTH_SHORT).show();
+                        iv_vidas.setImageResource(R.drawable.unavida);
+                        break;
+                    case 0:
+                        Toast.makeText(this, "No quedan mazanas", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(this, MainActivity.class);
+                        startActivity(intent);
+                        mp.stop();
+                        mp.release();
+                        finish();
+                        break;
+                }
+            }
+
+            et_respuesta.setText("");
+            numAleatorio();
+        }
+        else{
+            Toast.makeText(this, "Debes dar tu respuesta", Toast.LENGTH_SHORT).show();
+        }
     }
-     else{
-         mp_bab.start();
-         vidas--;
-         switch (vidas){
-             case 3:
-                 iv_vidas.setImageResource(R.drawable.tresvidas);
-                 break;
-             case 2:
-                 Toast.makeText(this, "Quedan 2 manzanas", Toast.LENGTH_SHORT).show();
-                 iv_vidas.setImageResource(R.drawable.dosvidas);
-                 break;
-             case 1:
-                 Toast.makeText(this, "Queda una manzana", Toast.LENGTH_SHORT).show();
-                 iv_vidas.setImageResource(R.drawable.unavida);
-                 break;
-             case 0:
-                 Toast.makeText(this, "No quedan mazanas", Toast.LENGTH_SHORT).show();
-                 Intent intent = new Intent(this, MainActivity.class);
-                 startActivity(intent);
-                 mp.stop();
-                 mp.release();
-                 finish();
-                 break;
-         }
-     }
-
-     et_respuesta.setText("");
-     numAleatorio();
-}
-else{
-    Toast.makeText(this, "Debes dar tu respuesta", Toast.LENGTH_SHORT).show();
-}
-    }
-
-
 }
