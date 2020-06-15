@@ -53,7 +53,7 @@ public class Main2Activity_Nivel1 extends AppCompatActivity {
     }
 
     public void numAleatorio() {
-        if (score < 10) {
+        if (score < 1) {
             aleatorio1 = (int) (Math.random() * 10);
             aleatorio2 = (int) (Math.random() * 10);
             resultado = aleatorio1 + aleatorio2;

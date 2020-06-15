@@ -14,11 +14,11 @@ import android.widget.Toast;
 public class MainActivity2_Nivel2 extends AppCompatActivity {
 
     private TextView tv_nombre, tv_score;
-    private ImageView iv_uno, iv_dos, iv_vidas;
+    private ImageView iv_uno, iv_dos,iv_uno0, iv_dos0, iv_vidas, iv_signo;
     private EditText et_respuesta;
     private MediaPlayer mp, mp_great, mp_bab;
 
-    int score, aleatorio1, aleatorio2, resultado, vidas = 3;
+    int score, aleatorio1, aleatorio2,aleatorio10, aleatorio20, resultado, vidas = 3;
     String nombre_jugador, string_score, string_vidas;
     String numero[] = {"cero","uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve"};
 
@@ -27,17 +27,23 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity2__nivel2);
 
-        Toast.makeText(this, "Nivel 2: Restas basicas", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Nivel 2: Sumas y Restas basicas", Toast.LENGTH_SHORT).show();
 
         tv_nombre = (TextView) findViewById(R.id.tv_nombre);
         tv_score = (TextView) findViewById(R.id.tv_score);
         iv_vidas = (ImageView) findViewById(R.id.tv_vidas);
         iv_uno = (ImageView) findViewById(R.id.iv_num1);
         iv_dos = (ImageView) findViewById(R.id.iv_num2);
+        iv_uno0 = (ImageView) findViewById(R.id.iv_num10);
+        iv_dos0 = (ImageView) findViewById(R.id.iv_num20);
         et_respuesta = (EditText) findViewById(R.id.et_resultado);
+        iv_signo= (ImageView) findViewById(R.id.iv_signo);
 
         nombre_jugador = getIntent().getStringExtra("jugador");
         tv_nombre.setText("Jugador : " + nombre_jugador );
+
+        score = (int) getIntent().getIntExtra("score",0);
+        tv_score.setText("Score : " + score );
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
@@ -54,10 +60,29 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
 
     public void numAleatorio() {
         if (score < 10) {
-            aleatorio1 = (int) (Math.random() * 10);
-            aleatorio2 = (int) (Math.random() * 10);
-            resultado = aleatorio1 - aleatorio2;
-            if(resultado <= 10 && resultado >= 0){
+            aleatorio1 = (int) (Math.random() * 2);
+            aleatorio2 = (int) (Math.random() * 2);
+            aleatorio10= (int) (Math.random() * 10);
+            aleatorio20= (int) (Math.random() * 10);
+            int signo= (int) (Math.random()*2);
+            int aleatoriofinal1= aleatorio1*10+aleatorio10;
+            int aleatoriofinal2= aleatorio2*10+aleatorio20;
+            if(signo==1){
+                iv_signo.setImageResource(R.drawable.adicion);
+
+                resultado = aleatoriofinal1 + aleatoriofinal2;
+            }else{
+                iv_signo.setImageResource(R.drawable.resta);
+
+                resultado = aleatoriofinal1 - aleatoriofinal2;
+            }
+
+
+
+            tv_nombre.setText(String.valueOf(aleatoriofinal1)+", "+ String.valueOf(aleatoriofinal2) +", "+resultado);
+
+
+            if(resultado <= 20 && resultado >= 0){
                 for(int i = 0; i < numero.length; i++){
                     int id = getResources().getIdentifier(numero[i], "drawable", getPackageName());
                     if(aleatorio1 == i){
@@ -65,6 +90,12 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
                     }
                     if(aleatorio2 == i){
                         iv_dos.setImageResource(id);
+                    }
+                    if(aleatorio10 == i){
+                        iv_uno0.setImageResource(id);
+                    }
+                    if(aleatorio20 == i){
+                        iv_dos0.setImageResource(id);
                     }
                 }
             }
@@ -76,7 +107,7 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity3_Nivel3.class);
             string_score = String.valueOf(score);
             string_vidas = String.valueOf(vidas);
-            intent.putExtra("jugardor", nombre_jugador);
+            intent.putExtra("jugador", nombre_jugador);
             intent.putExtra("score", string_score);
             intent.putExtra("vidas", string_vidas);
             startActivity(intent);

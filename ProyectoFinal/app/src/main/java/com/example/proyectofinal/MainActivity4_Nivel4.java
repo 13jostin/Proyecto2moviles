@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity3_Nivel3 extends AppCompatActivity {
+public class MainActivity4_Nivel4 extends AppCompatActivity {
 
     private TextView tv_nombre, tv_score;
     private ImageView iv_uno,iv_uno0, iv_dos, iv_dos0, iv_vidas, iv_signo;
@@ -25,9 +25,9 @@ public class MainActivity3_Nivel3 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_activity2__nivel2);
+        setContentView(R.layout.activity_main_activity4__nivel4);
 
-        Toast.makeText(this, "Nivel 3: Sumas y Restas de mediano nivel", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Nivel 4: Sumas, Restas y multiplicaciones de alto nivel", Toast.LENGTH_SHORT).show();
 
         tv_nombre = (TextView) findViewById(R.id.tv_nombre);
         tv_score = (TextView) findViewById(R.id.tv_score);
@@ -104,7 +104,7 @@ public class MainActivity3_Nivel3 extends AppCompatActivity {
             }
         }
         else{
-            Intent intent = new Intent(this, MainActivity4_Nivel4.class);
+            Intent intent = new Intent(this, MainActivity.class);
             string_score = String.valueOf(score);
             string_vidas = String.valueOf(vidas);
             intent.putExtra("jugador", nombre_jugador);
