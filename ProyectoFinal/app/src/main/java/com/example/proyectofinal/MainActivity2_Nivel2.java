@@ -2,7 +2,9 @@ package com.example.proyectofinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -37,7 +39,14 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
         et_respuesta = (EditText) findViewById(R.id.et_resultado);
 
         nombre_jugador = getIntent().getStringExtra("jugador");
+        string_score = getIntent().getStringExtra("score");
+        score = Integer.parseInt(getIntent().getStringExtra("score"));
+        vidas = Integer.parseInt(getIntent().getStringExtra("vidas"));
+
+        tv_score.setText("score : " + string_score);
         tv_nombre.setText("Jugador : " + nombre_jugador );
+
+        setVidas(vidas, nombre_jugador);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher);
@@ -53,11 +62,11 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
     }
 
     public void numAleatorio() {
-        if (score < 10) {
+        if (score < 20) {
             aleatorio1 = (int) (Math.random() * 10);
             aleatorio2 = (int) (Math.random() * 10);
             resultado = aleatorio1 - aleatorio2;
-            if(resultado <= 10 && resultado >= 0){
+            if(resultado <= 20){
                 for(int i = 0; i < numero.length; i++){
                     int id = getResources().getIdentifier(numero[i], "drawable", getPackageName());
                     if(aleatorio1 == i){
@@ -76,7 +85,7 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
             Intent intent = new Intent(this, MainActivity3_Nivel3.class);
             string_score = String.valueOf(score);
             string_vidas = String.valueOf(vidas);
-            intent.putExtra("jugardor", nombre_jugador);
+            intent.putExtra("jugador", nombre_jugador);
             intent.putExtra("score", string_score);
             intent.putExtra("vidas", string_vidas);
             startActivity(intent);
@@ -86,49 +95,79 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
         }
     }
 
+    private void setVidas(int vidas, String name){
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"administracion",null,1);
+        SQLiteDatabase BD = admin.getWritableDatabase();
+
+        switch (vidas){
+            case 3:
+                iv_vidas.setImageResource(R.drawable.tresvidas);
+                break;
+            case 2:
+                iv_vidas.setImageResource(R.drawable.dosvidas);
+                break;
+            case 1:
+                iv_vidas.setImageResource(R.drawable.unavida);
+                break;
+            case 0:
+                Toast.makeText(this, "No quedan mazanas", Toast.LENGTH_SHORT).show();
+                int cantidad = BD.delete("puntaje", "nombre=" + "'" + name + "'", null);
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                mp.stop();
+                mp.release();
+                finish();
+                break;
+        }
+    }
+
+    private int modificar(String name, int score, int vidas){
+
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"administracion",null,1);
+        SQLiteDatabase BD = admin.getWritableDatabase();
+
+        ContentValues registro = new ContentValues();
+        registro.put("nombre", name);
+        registro.put("score", score);
+        registro.put("vidas", vidas);
+
+        int cantidad =  BD.update("puntaje", registro, "nombre=" + "'" + name + "'",null);
+        BD.close();
+
+        return cantidad;
+
+    }
+
     public void evaluar(View vista){
 
         String respuesta = et_respuesta.getText().toString();
 
-        if(!respuesta.isEmpty()){
+        if(!respuesta.isEmpty()) {
             int respuestaEntera = Integer.parseInt(respuesta);
 
-            if(resultado == respuestaEntera){
+            if (resultado == respuestaEntera) {
                 mp_great.start();
                 score++;
                 tv_score.setText("score : " + score);
-            }
-            else{
+            } else {
                 mp_bab.start();
                 vidas--;
-                switch (vidas){
-                    case 3:
-                        iv_vidas.setImageResource(R.drawable.tresvidas);
-                        break;
-                    case 2:
-                        Toast.makeText(this, "Quedan 2 manzanas", Toast.LENGTH_SHORT).show();
-                        iv_vidas.setImageResource(R.drawable.dosvidas);
-                        break;
-                    case 1:
-                        Toast.makeText(this, "Queda una manzana", Toast.LENGTH_SHORT).show();
-                        iv_vidas.setImageResource(R.drawable.unavida);
-                        break;
-                    case 0:
-                        Toast.makeText(this, "No quedan mazanas", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(this, MainActivity.class);
-                        startActivity(intent);
-                        mp.stop();
-                        mp.release();
-                        finish();
-                        break;
-                }
+                setVidas(vidas, nombre_jugador);
             }
 
             et_respuesta.setText("");
             numAleatorio();
+
+            if (vidas > 0) {
+                int state = modificar(nombre_jugador, score, vidas);
+            }
         }
         else{
             Toast.makeText(this, "Debes dar tu respuesta", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
+
 }

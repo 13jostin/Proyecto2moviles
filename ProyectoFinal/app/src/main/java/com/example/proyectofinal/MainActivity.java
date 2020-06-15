@@ -2,6 +2,7 @@ package com.example.proyectofinal;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             iv_personaje.setImageResource(id);
         }
 
-        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"db",null,1);
+        AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"administracion",null,1);
         SQLiteDatabase BD = admin.getWritableDatabase();
 
         Cursor consulta = BD.rawQuery("select * from puntaje where score = (select max(score) from puntaje)",null);
@@ -78,8 +79,50 @@ public class MainActivity extends AppCompatActivity {
         if(!nombre.isEmpty()){
             mp.stop();
             mp.release();
-            Intent intent = new Intent(this,Main2Activity_Nivel1.class);
-            intent.putExtra("jugador",nombre);
+            Intent intent = null;
+
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"administracion",null,1);
+            SQLiteDatabase BD = admin.getWritableDatabase();
+
+            Cursor file = BD.rawQuery("select * from puntaje where nombre = " +  "'" + nombre + "'", null);
+
+            if(file.moveToFirst()){
+                String sco = file.getString(1);
+                String lif = file.getString(2);
+                if(sco != null && sco != "0" && lif != null && lif != "0") {
+                    if ((Integer.parseInt(sco) < 10)) {
+                        intent = new Intent(this, Main2Activity_Nivel1.class);
+                    } else if ((Integer.parseInt(sco) >= 10) && (Integer.parseInt(sco) < 20)) {
+                        intent = new Intent(this, MainActivity2_Nivel2.class);
+                    }
+                    intent.putExtra("jugador", nombre);
+
+                    intent.putExtra("score", file.getString(1));
+                    intent.putExtra("vidas", file.getString(2));
+                }
+                else{
+                    intent.putExtra("jugador", nombre);
+
+                    intent.putExtra("score", "0");
+                    intent.putExtra("vidas", "3");
+                }
+            }
+            else{
+                intent = new Intent(this,Main2Activity_Nivel1.class);
+                intent.putExtra("jugador",nombre);
+
+                ContentValues registro = new ContentValues();
+                String sc = "0", lifes = "3";
+                registro.put("nombre", nombre);
+                registro.put("score", sc);
+                registro.put("vidas", lifes);
+                BD.insert("puntaje",null, registro);
+
+                intent.putExtra("score",sc);
+                intent.putExtra("vidas",lifes);
+            }
+
+            BD.close();
             startActivity(intent);
             finish();
         }else{
@@ -95,5 +138,6 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed(){
         //
     }
+
 
 }

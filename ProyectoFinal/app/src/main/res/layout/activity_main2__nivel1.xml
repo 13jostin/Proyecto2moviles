@@ -21,20 +21,19 @@
        android:textSize="18sp"
         />
 
-    <TextView
-        android:id="@+id/tv_score"
-        android:layout_width="76dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_nombre"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="2dp"
-        android:text="@string/str_score"
-        android:textColor="@android:color/background_dark"
-        android:textSize="18sp"
-        />
+ <TextView
+     android:id="@+id/tv_score"
+     android:layout_width="105dp"
+     android:layout_height="wrap_content"
+     android:layout_below="@+id/tv_nombre"
+     android:layout_alignParentStart="true"
+     android:layout_alignParentLeft="true"
+     android:layout_marginStart="28dp"
+     android:layout_marginLeft="28dp"
+     android:layout_marginTop="2dp"
+     android:text="@string/str_score"
+     android:textColor="@android:color/background_dark"
+     android:textSize="18sp" />
 
     <TextView
         android:id="@+id/tv_manzanas"
