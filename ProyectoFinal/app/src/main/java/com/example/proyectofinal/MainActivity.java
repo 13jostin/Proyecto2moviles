@@ -95,6 +95,12 @@ public class MainActivity extends AppCompatActivity {
                     } else if ((Integer.parseInt(sco) >= 10) && (Integer.parseInt(sco) < 20)) {
                         intent = new Intent(this, MainActivity2_Nivel2.class);
                     }
+                    else if ((Integer.parseInt(sco) >= 20) && (Integer.parseInt(sco) < 30)) {
+                        intent = new Intent(this, MainActivity3_Nivel3.class);
+                    }
+                    else if ((Integer.parseInt(sco) >= 30) && (Integer.parseInt(sco) < 40)) {
+                        intent = new Intent(this, MainActivity4_Nivel4.class);
+                    }
                     intent.putExtra("jugador", nombre);
 
                     intent.putExtra("score", file.getString(1));
@@ -109,6 +115,57 @@ public class MainActivity extends AppCompatActivity {
             }
             else{
                 intent = new Intent(this,Main2Activity_Nivel1.class);
+                intent.putExtra("jugador",nombre);
+
+                ContentValues registro = new ContentValues();
+                String sc = "0", lifes = "3";
+                registro.put("nombre", nombre);
+                registro.put("score", sc);
+                registro.put("vidas", lifes);
+                BD.insert("puntaje",null, registro);
+
+                intent.putExtra("score",sc);
+                intent.putExtra("vidas",lifes);
+            }
+
+            BD.close();
+            startActivity(intent);
+            finish();
+        }else{
+            Toast.makeText(this,"Primero debes tu nombre",Toast.LENGTH_SHORT).show();
+            et_nombre.requestFocus();
+            InputMethodManager imm = (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(et_nombre,InputMethodManager.SHOW_IMPLICIT);
+        }
+
+    }
+
+    public void nuevoJuego(View vista){
+        String nombre = et_nombre.getText().toString();
+        if(!nombre.isEmpty()){
+            mp.stop();
+            mp.release();
+            Intent intent = new Intent(this,Main2Activity_Nivel1.class);
+            intent.putExtra("jugador",nombre);
+
+            AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this,"administracion",null,1);
+            SQLiteDatabase BD = admin.getWritableDatabase();
+
+            Cursor file = BD.rawQuery("select * from puntaje where nombre = " +  "'" + nombre + "'", null);
+
+            if(file.moveToFirst()){
+                ContentValues registro = new ContentValues();
+                String sc = "0", lifes = "3";
+                registro.put("nombre", nombre);
+                registro.put("score", sc);
+                registro.put("vidas", lifes);
+                int cantidad =  BD.update("puntaje", registro, "nombre=" + "'" + nombre + "'",null);
+
+                intent.putExtra("score",sc);
+                intent.putExtra("vidas",lifes);
+            }
+            else{
+
                 intent.putExtra("jugador",nombre);
 
                 ContentValues registro = new ContentValues();

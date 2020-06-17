@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.proyectofinal.MainActivity4_Nivel4">
+
+    <TextView
+        android:id="@+id/tv_nombre"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/str_jugadorNombre"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp"
+        />
+
+    <TextView
+        android:id="@+id/tv_score"
+        android:layout_width="130dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_nombre"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/str_score"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_manzanas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_score"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/str_vidas"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp"
+        />
+
+    <ImageView
+        android:id="@+id/tv_vidas"
+        android:layout_width="80dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="72dp"
+        android:layout_toEndOf="@+id/tv_manzanas"
+        android:contentDescription="@string/str_vidas"
+        app:srcCompat="@drawable/tresvidas" />
+
+    <ImageView
+        android:id="@+id/iv_num1"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="130dp"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/cero" />
+
+
+    <ImageView
+        android:id="@+id/iv_signo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="145dp"
+        android:contentDescription="@string/str_vidas"
+        app:srcCompat="@drawable/resta" />
+
+
+    <ImageView
+        android:id="@+id/iv_num2"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="131dp"
+        android:layout_marginEnd="23dp"
+        android:contentDescription="@string/todo"
+        app:srcCompat="@drawable/cero" />
+
+    <EditText
+        android:id="@+id/et_resultado"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/iv_signo"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="27dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/str_respuesta"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btn_evaluar"
+        android:layout_width="120dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/iv_signo"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="27dp"
+        android:layout_toEndOf="@+id/et_resultado"
+        android:background="@drawable/fondoboton"
+
+        android:onClick="evaluar"
+        android:text="@string/str_sumar"
+        android:textColor="@android:color/background_light" />
+
+</RelativeLayout>

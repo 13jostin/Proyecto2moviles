@@ -69,6 +69,7 @@ public class Main2Activity_Nivel1 extends AppCompatActivity {
             resultado = aleatorio1 + aleatorio2;
             if(resultado <= 10){
                 for(int i = 0; i < numero.length; i++){
+
                     int id = getResources().getIdentifier(numero[i], "drawable", getPackageName());
                     if(aleatorio1 == i){
                         iv_uno.setImageResource(id);

@@ -16,13 +16,13 @@ import android.widget.Toast;
 public class MainActivity2_Nivel2 extends AppCompatActivity {
 
     private TextView tv_nombre, tv_score;
-    private ImageView iv_uno, iv_dos, iv_vidas;
+    private ImageView iv_uno, iv_dos, iv_vidas, iv_signo;
     private EditText et_respuesta;
     private MediaPlayer mp, mp_great, mp_bab;
 
     int score, aleatorio1, aleatorio2, resultado, vidas = 3;
     String nombre_jugador, string_score, string_vidas;
-    String numero[] = {"cero","uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve"};
+    String numero[] = {"cero","uno","dos","tres","cuatro","cinco","seis","siete","ocho","nueve", "diez", "once", "doce", "trece", "catorce", "quince", "dieciseis", "diecisiete", "dieciocho", "diecinueve", "veinte"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,7 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
         iv_uno = (ImageView) findViewById(R.id.iv_num1);
         iv_dos = (ImageView) findViewById(R.id.iv_num2);
         et_respuesta = (EditText) findViewById(R.id.et_resultado);
+        iv_signo= (ImageView) findViewById(R.id.iv_signo);
 
         nombre_jugador = getIntent().getStringExtra("jugador");
         string_score = getIntent().getStringExtra("score");
@@ -62,11 +63,26 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
     }
 
     public void numAleatorio() {
-        if (score < 20) {
-            aleatorio1 = (int) (Math.random() * 10);
-            aleatorio2 = (int) (Math.random() * 10);
-            resultado = aleatorio1 - aleatorio2;
-            if(resultado <= 20){
+        if (score >= 10 && score < 20) {
+            aleatorio1 = (int) (Math.random() * 20);
+            aleatorio2 = (int) (Math.random() * 20);
+
+            int signo= (int) (Math.random()*2);
+
+            if(signo==1){
+                iv_signo.setImageResource(R.drawable.adicion);
+
+                resultado = aleatorio1+aleatorio2;
+            }else{
+                iv_signo.setImageResource(R.drawable.resta);
+
+                resultado = aleatorio1 - aleatorio2;
+            }
+
+
+
+
+            if(resultado <= 20 && resultado >= 0){
                 for(int i = 0; i < numero.length; i++){
                     int id = getResources().getIdentifier(numero[i], "drawable", getPackageName());
                     if(aleatorio1 == i){
@@ -75,6 +91,7 @@ public class MainActivity2_Nivel2 extends AppCompatActivity {
                     if(aleatorio2 == i){
                         iv_dos.setImageResource(id);
                     }
+
                 }
             }
             else{

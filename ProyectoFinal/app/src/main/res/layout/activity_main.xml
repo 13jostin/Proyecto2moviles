@@ -7,6 +7,22 @@
     android:background="@drawable/globos"
     tools:context=".MainActivity">
 
+    <Button
+        android:id="@+id/btn_jugar2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/btn_jugar"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginRight="56dp"
+        android:background="@drawable/fondoboton"
+        android:onClick="nuevoJuego"
+        android:text="@string/str_nuevo_juego"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp" />
+
     <ImageView
         android:id="@+id/iv_personaje"
         android:layout_width="250dp"
@@ -42,7 +58,7 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/fondoboton"
         android:onClick="jugar"
-        android:text="@string/str_jugar"
+        android:text="@string/str_continuar"
         android:textColor="@android:color/background_light"
         android:textSize="24sp" />
 
@@ -50,7 +66,7 @@
         android:id="@+id/tv_BestScore"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/btn_jugar"
-        android:layout_marginTop="66dp"
+        android:layout_below="@+id/btn_jugar2"
+        android:layout_marginTop="32dp"
         android:background="@drawable/fondoet" />
 </RelativeLayout>
